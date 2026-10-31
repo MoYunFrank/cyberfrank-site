@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="范坤（赛博弗兰克）· Forward Deployed Engineer 前向部署工程师：深入业务现场，部署真正可用的 AI。十年企业级交付经验。">
+  <meta name="theme-color" content="#fafafd">
+  <title>范坤 · 赛博弗兰克 — Forward Deployed Engineer</title>
+  <style>
+    :root {
+      --bg: #fafafd;
+      --surface: #ffffff;
+      --surface-soft: #f5f4fd;
+      --ink: #17143a;
+      --muted: #5d5a7e;
+      --faint: #918fae;
+      --line: #e9e7f5;
+      --navy: #1e1b6e;
+      --violet: #5b2fd0;
+      --violet-bright: #8b5cf6;
+      --gradient: linear-gradient(120deg, #1e1b6e 0%, #4534b3 48%, #8b5cf6 100%);
+      --gradient-soft: linear-gradient(120deg, #efecfe 0%, #f8f6ff 100%);
+      --shadow: 0 24px 70px rgba(44, 30, 114, .10), 0 4px 18px rgba(44, 30, 114, .05);
+      --radius: 24px;
+      --sans: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background:
+        radial-gradient(circle at 88% -8%, rgba(139, 92, 246, .15), transparent 32%),
+        radial-gradient(circle at -6% 28%, rgba(69, 52, 179, .07), transparent 26%),
+        radial-gradient(circle at 55% 120%, rgba(139, 92, 246, .06), transparent 34%),
+        var(--bg);
+      background-attachment: fixed;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    ::selection { background: #ddd3fb; color: #2c1e72; }
+    :focus-visible { outline: 3px solid rgba(124, 58, 237, .35); outline-offset: 4px; }
+    .container { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+    .gradient-text { background: linear-gradient(120deg, #34209e 0%, #5b2fd0 45%, #8b5cf6 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* 顶部品牌光带 */
+    .beam { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 300; background: linear-gradient(90deg, #1e1b6e, #4534b3 30%, #8b5cf6 50%, #4534b3 70%, #1e1b6e); }
+
+    /* Navigation */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250, 250, 253, .82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(233, 231, 245, .9);
+    }
+    .nav-inner { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .brand-mark {
+      width: 38px; height: 38px; display: grid; place-items: center;
+      border-radius: 12px; background: var(--gradient); color: #fff;
+      font-size: 13px; font-weight: 800; letter-spacing: -.04em;
+      box-shadow: 0 10px 26px rgba(69, 52, 179, .28), inset 0 1px 0 rgba(255,255,255,.25);
+    }
+    .brand-name { font-size: 15px; font-weight: 750; line-height: 1.3; }
+    .brand-name small { display: block; color: var(--faint); font-size: 9px; letter-spacing: .18em; font-weight: 650; }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links > a { color: var(--muted); font-size: 14px; font-weight: 550; transition: color .2s; }
+    .nav-links > a:hover { color: var(--violet); }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px;
+      background: var(--gradient); color: #fff !important; border-radius: 12px;
+      box-shadow: 0 8px 22px rgba(69, 52, 179, .25);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(69, 52, 179, .34); }
+
+    /* Shared */
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 50px; padding: 0 26px; border: 0; border-radius: 14px;
+      cursor: pointer; font-weight: 700; font-size: 15px; transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--gradient); color: #fff; box-shadow: 0 14px 32px rgba(69, 52, 179, .26); }
+    .button-primary:hover { box-shadow: 0 18px 40px rgba(69, 52, 179, .36); }
+    .button-secondary { background: rgba(255,255,255,.8); color: var(--ink); border: 1px solid var(--line); }
+    .button-secondary:hover { background: #fff; border-color: #d8cff7; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--violet); font-size: 12px; font-weight: 750; letter-spacing: .15em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; background: var(--gradient); border-radius: 2px; }
+    .section { padding: 112px 0 0; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 44px; }
+    .section-heading h2 { margin-top: 12px; font-size: clamp(30px, 4vw, 44px); line-height: 1.2; letter-spacing: -.04em; }
+    .section-heading > p { max-width: 410px; color: var(--muted); font-size: 15px; }
+    .tag { display: inline-flex; align-items: center; padding: 5px 11px; border-radius: 8px; background: var(--surface-soft); color: #5b567e; font-size: 12px; font-weight: 600; }
+
+    /* Hero */
+    .hero { padding: 88px 0 58px; }
+    .hero-grid { display: grid; grid-template-columns: 1.04fr .96fr; gap: 76px; align-items: center; }
+    .hero-copy h1 { margin-top: 22px; font-size: clamp(44px, 5.7vw, 72px); line-height: 1.1; letter-spacing: -.055em; font-weight: 850; }
+    .hero-copy > p { max-width: 580px; margin-top: 26px; color: var(--muted); font-size: 18px; line-height: 1.9; }
+    .hero-copy > p strong { color: var(--ink); font-weight: 700; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+    .availability { display: flex; align-items: center; gap: 9px; margin-top: 24px; color: var(--faint); font-size: 13px; }
+    .availability i { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 5px rgba(34,197,94,.1); }
+
+    .hero-visual { position: relative; min-height: 470px; display: grid; place-items: center; }
+    .hero-visual::before {
+      content: ""; position: absolute; inset: 6% 2% 4% 8%;
+      background: linear-gradient(140deg, rgba(69, 52, 179, .20), rgba(139, 92, 246, .18));
+      border-radius: 42% 58% 62% 38% / 45% 38% 62% 55%; filter: blur(32px);
+    }
+    .workflow {
+      position: relative; width: min(100%, 450px); padding: 26px;
+      background: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.95);
+      border-radius: 28px; box-shadow: var(--shadow); backdrop-filter: blur(16px);
+    }
+    .workflow-top { display: flex; justify-content: space-between; align-items: center; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+    .workflow-top strong { font-size: 14px; letter-spacing: -.01em; }
+    .workflow-top span { display: flex; align-items: center; gap: 7px; color: var(--faint); font-size: 11px; font-weight: 650; letter-spacing: .08em; }
+    .workflow-top span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+    .flow-list { padding: 24px 0 8px; }
+    .flow-item { position: relative; display: grid; grid-template-columns: 46px 1fr auto; gap: 14px; align-items: center; padding: 11px 0; }
+    .flow-item:not(:last-child)::after { content: ""; position: absolute; left: 22px; top: 58px; width: 1px; height: 19px; background: #e2ddf4; }
+    .flow-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 14px; background: var(--gradient-soft); color: var(--violet); font-size: 12px; font-weight: 800; }
+    .flow-text b { display: block; font-size: 14px; }
+    .flow-text small { display: block; color: var(--faint); font-size: 12px; margin-top: 1px; }
+    .flow-check { color: #16a34a; font-size: 12px; font-weight: 700; }
+    .workflow-result { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding: 16px 18px; border-radius: 15px; background: var(--gradient); color: #fff; box-shadow: 0 12px 28px rgba(69, 52, 179, .24); }
+    .workflow-result span { font-size: 12px; opacity: .78; }
+    .workflow-result strong { font-size: 14px; }
+    .float-card { position: absolute; padding: 13px 17px; border: 1px solid rgba(255,255,255,.9); border-radius: 16px; background: rgba(255,255,255,.92); box-shadow: 0 16px 42px rgba(44, 30, 114, .12); backdrop-filter: blur(12px); }
+    .float-card b { display: block; font-size: 20px; line-height: 1.25; letter-spacing: -.03em; background: linear-gradient(120deg, #34209e, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .float-card small { color: var(--faint); font-size: 11px; }
+    .float-a { right: -12px; top: 44px; }
+    .float-b { left: -18px; bottom: 44px; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 68px; padding: 28px 0; background: rgba(255,255,255,.72); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 10px 34px rgba(44, 30, 114, .05); }
+    .stat { padding: 0 30px; }
+    .stat + .stat { border-left: 1px solid var(--line); }
+    .stat b { display: block; font-size: 30px; line-height: 1.2; letter-spacing: -.04em; background: linear-gradient(120deg, #34209e, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stat span { color: var(--faint); font-size: 12px; }
+
+    /* Projects */
+    .project-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 22px; }
+    .project {
+      position: relative; overflow: hidden; display: flex; flex-direction: column;
+      min-height: 100%; padding: 30px; background: var(--surface);
+      border: 1px solid var(--line); border-radius: var(--radius);
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .project::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient); opacity: 0; transition: opacity .25s; }
+    .project:hover { transform: translateY(-4px); box-shadow: 0 22px 54px rgba(44, 30, 114, .10); border-color: #ddd4f5; }
+    .project:hover::before { opacity: 1; }
+    .project-large { grid-column: span 7; }
+    .project-small { grid-column: span 5; }
+    .project-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .project-type { color: var(--faint); font-size: 11px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+    .status { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
+    .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.12); }
+    .status.prototype::before { background: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,.14); }
+    .project h3 { margin-top: 20px; font-size: 24px; line-height: 1.35; letter-spacing: -.03em; }
+    .project-desc { margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 1.85; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+    .project-preview { margin-top: 26px; padding: 20px; border: 1px solid #e8e5f4; border-radius: 18px; background: var(--surface-soft); }
+    .preview-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; color: var(--faint); font-size: 11px; }
+    .window-dots { display: flex; gap: 5px; }
+    .window-dots i { width: 6px; height: 6px; border-radius: 50%; background: #d6d1ea; }
+    .document { padding: 17px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: #4c4972; font-size: 12px; line-height: 2; }
+    .sensitive { padding: 2px 5px; border-radius: 4px; background: #ede7fd; color: #6d28d9; transition: all .2s; }
+    .sensitive.is-hidden { color: transparent; background: #4c2a9e; user-select: none; }
+    .demo-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+    .demo-status { color: var(--faint); font-size: 11px; }
+    .demo-button { padding: 8px 14px; border: 0; border-radius: 9px; background: var(--gradient); color: #fff; cursor: pointer; font-size: 11px; font-weight: 700; box-shadow: 0 6px 16px rgba(69, 52, 179, .22); transition: transform .15s; }
+    .demo-button:hover { transform: translateY(-1px); }
+    .report-row { display: grid; grid-template-columns: 25px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .report-row:last-child { border: 0; }
+    .report-num { color: var(--violet); font-weight: 800; }
+    .report-row small { color: var(--faint); }
+    .route { display: flex; align-items: center; gap: 0; padding: 22px 4px 16px; }
+    .route-node { flex: 1; position: relative; text-align: center; color: var(--faint); font-size: 10px; }
+    .route-node::before { content: ""; display: block; width: 12px; height: 12px; margin: 0 auto 9px; border: 3px solid #fff; border-radius: 50%; background: #d8cff7; box-shadow: 0 0 0 1px #d8cff7; }
+    .route-node:not(:last-child)::after { content: ""; position: absolute; left: calc(50% + 9px); right: calc(-50% + 9px); top: 5px; height: 2px; background: #e4dff5; }
+    .route-node.done::before { background: var(--violet); box-shadow: 0 0 0 1px var(--violet); }
+    .route-node.done:not(:last-child)::after { background: #a78bfa; }
+    .route-progress { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; }
+    .route-progress b { color: var(--ink); }
+    .architecture { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .architecture div { padding: 15px 8px; text-align: center; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--muted); font-size: 11px; }
+    .architecture b { display: block; margin-bottom: 3px; color: var(--ink); font-size: 12px; }
+    .project-metrics { display: flex; gap: 26px; margin-top: auto; padding-top: 24px; }
+    .project-metrics b { display: block; font-size: 20px; line-height: 1.3; letter-spacing: -.03em; background: linear-gradient(120deg, #34209e, #7c3aed); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .project-metrics span { color: var(--faint); font-size: 11px; }
+
+    /* Experience */
+    .experience-list { border-top: 1px solid var(--line); }
+    .experience { display: grid; grid-template-columns: 210px 1fr 260px; gap: 34px; align-items: start; padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .company { font-size: 15px; font-weight: 750; }
+    .company small { display: block; margin-top: 4px; color: var(--faint); font-size: 11px; font-weight: 500; }
+    .experience h3 { font-size: 16px; }
+    .experience p { margin-top: 5px; color: var(--muted); font-size: 13px; }
+    .outcome { color: var(--violet); font-size: 12px; font-weight: 650; line-height: 1.8; }
+    .more-experience { margin-top: 18px; }
+    .more-experience summary { display: inline-flex; cursor: pointer; color: var(--muted); font-size: 13px; font-weight: 650; }
+    .more-experience summary:hover { color: var(--violet); }
+    .more-experience[open] summary { margin-bottom: 12px; }
+
+    /* Capabilities */
+    .capability-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .capability { padding: 30px; border: 1px solid var(--line); border-radius: 20px; background: rgba(255,255,255,.75); transition: transform .25s, box-shadow .25s; }
+    .capability:hover { transform: translateY(-3px); box-shadow: 0 18px 44px rgba(44, 30, 114, .08); }
+    .capability-index { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--gradient-soft); color: var(--violet); font-size: 12px; font-weight: 800; }
+    .capability h3 { margin-top: 20px; font-size: 18px; }
+    .capability p { margin-top: 9px; color: var(--muted); font-size: 13px; }
+    .capability ul { margin-top: 18px; list-style: none; }
+    .capability li { padding: 7px 0; border-top: 1px solid var(--line); color: #4d4a72; font-size: 12px; }
+
+    /* About & contact */
+    .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; padding: 40px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .about h2 { font-size: 27px; letter-spacing: -.03em; }
+    .about p { color: var(--muted); font-size: 15px; }
+    .about p + p { margin-top: 12px; }
+    .about strong { color: var(--ink); }
+    .contact { margin-top: 112px; padding: 0 0 30px; }
+    .contact-card { position: relative; overflow: hidden; padding: 64px; border-radius: 30px; background: linear-gradient(125deg, #1e1b6e 0%, #3d2f9e 42%, #6d3ce0 78%, #8b5cf6 100%); color: #fff; box-shadow: 0 30px 80px rgba(38, 26, 100, .28); }
+    .contact-card::after { content: "FDE"; position: absolute; right: -18px; bottom: -84px; color: rgba(255,255,255,.05); font-size: 260px; font-weight: 900; line-height: 1; letter-spacing: -.08em; pointer-events: none; }
+    .contact-card .eyebrow { color: rgba(255,255,255,.68); }
+    .contact-card .eyebrow::before { background: rgba(255,255,255,.5); }
+    .contact-card h2 { max-width: 700px; margin-top: 16px; font-size: clamp(32px, 4.6vw, 50px); line-height: 1.25; letter-spacing: -.04em; }
+    .contact-card > p { max-width: 650px; margin-top: 18px; color: rgba(255,255,255,.75); font-size: 15px; }
+    .contact-list { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .contact-list span { padding: 10px 15px; border: 1px solid rgba(255,255,255,.2); border-radius: 11px; background: rgba(255,255,255,.08); color: rgba(255,255,255,.82); font-size: 12px; }
+    .footer { display: flex; justify-content: space-between; gap: 24px; padding: 28px 4px 0; color: var(--faint); font-size: 11px; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-copy { max-width: 760px; }
+      .hero-visual { min-height: 420px; }
+      .workflow { width: min(88%, 480px); }
+      .float-a { right: 5%; }
+      .float-b { left: 5%; }
+      .project-large, .project-small { grid-column: span 6; }
+      .experience, .more-experience .experience { grid-template-columns: 170px 1fr; }
+      .outcome { grid-column: 2; }
+      .section-heading { align-items: start; flex-direction: column; gap: 14px; }
+    }
+    @media (max-width: 720px) {
+      .container { width: min(100% - 32px, 1180px); }
+      .nav-inner { height: 68px; }
+      .nav-links { gap: 12px; }
+      .nav-links > a:not(.nav-cta) { display: none; }
+      .nav-cta { padding: 9px 14px; }
+      .hero { padding-top: 58px; }
+      .hero-copy h1 { font-size: clamp(40px, 12vw, 56px); }
+      .hero-copy > p { font-size: 16px; }
+      .hero-visual { min-height: 390px; }
+      .workflow { width: 100%; padding: 20px; }
+      .float-card { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); padding: 10px 0; }
+      .stat { padding: 18px 22px; }
+      .stat + .stat { border-left: 0; }
+      .stat:nth-child(even) { border-left: 1px solid var(--line); }
+      .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+      .section { padding-top: 80px; }
+      .section-heading { margin-bottom: 28px; }
+      .project-large, .project-small { grid-column: 1 / -1; }
+      .project { padding: 24px; }
+      .experience, .more-experience .experience { grid-template-columns: 1fr; gap: 8px; padding: 24px 0; }
+      .outcome { grid-column: auto; margin-top: 5px; }
+      .capability-grid { grid-template-columns: 1fr; }
+      .about { grid-template-columns: 1fr; gap: 20px; }
+      .contact { margin-top: 80px; }
+      .contact-card { padding: 38px 26px; border-radius: 24px; }
+      .footer { flex-direction: column; gap: 5px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="beam" aria-hidden="true"></div>
+  <nav class="nav" aria-label="主导航">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="返回首页">
+        <span class="brand-mark">CF</span>
+        <span class="brand-name">赛博弗兰克<small>FDE · FAN KUN</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#work">产品</a>
+        <a href="#experience">经历</a>
+        <a href="#capabilities">能力</a>
+        <a href="#about">关于</a>
+        <a class="nav-cta" href="#contact">联系我 <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Forward Deployed Engineer</div>
+            <h1>深入业务现场，<br>让 AI 真正<span class="gradient-text">跑起来</span>。</h1>
+            <p>我是范坤，也用「赛博弗兰克」这个名字创作。十年在医疗、汽车、金融、政务的<strong>驻场交付</strong>经验——现在我把大模型带进同样的现场：<strong>不写 Demo，部署进业务、持续运行、对结果负责。</strong></p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#work">查看现场交付 <span aria-hidden="true">↓</span></a>
+              <a class="button button-secondary" href="#experience">十年驻场经历</a>
+            </div>
+            <div class="availability"><i aria-hidden="true"></i> 开放 FDE 合作：AI 落地部署 / 企业智能化 / 集成架构</div>
+          </div>
+
+          <div class="hero-visual" aria-label="前向部署工程师的现场工作流示意图">
+            <div class="workflow">
+              <div class="workflow-top"><strong>FDE Deployment Loop</strong><span>ON SITE</span></div>
+              <div class="flow-list">
+                <div class="flow-item">
+                  <span class="flow-icon">01</span>
+                  <span class="flow-text"><b>现场诊断</b><small>到业务里去，理解系统、数据与人</small></span>
+                  <span class="flow-check">已驻场</span>
+                </div>
+                <div class="flow-item">
+                  <span class="flow-icon">02</span>
+                  <span class="flow-text"><b>方案定制</b><small>不为产品找场景，为现场约束设计</small></span>
+                  <span class="flow-check">已设计</span>
+                </div>
+                <div class="flow-item">
+                  <span class="flow-icon">03</span>
+                  <span class="flow-text"><b>部署运行</b><small>上线只是开始，用运行数据说话</small></span>
+                  <span class="flow-check">运行中</span>
+                </div>
+              </div>
+              <div class="workflow-result"><span>现场交付</span><strong>能用的系统 · 可信的结果</strong></div>
+            </div>
+            <div class="float-card float-a"><b>262k</b><small>长上下文工程</small></div>
+            <div class="float-card float-b"><b>10 年</b><small>驻场交付经验</small></div>
+          </div>
+        </div>
+
+        <div class="stats" aria-label="职业数据">
+          <div class="stat"><b>10 年</b><span>企业现场交付</span></div>
+          <div class="stat"><b>6 个</b><span>驻场项目</span></div>
+          <div class="stat"><b>4 条</b><span>AI 产品线</span></div>
+          <div class="stat"><b>954 份</b><span>单批次处理能力</span></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="eyebrow">Deployed Work</div><h2>部署在真实业务里的产品</h2></div>
+          <p>关注专业文档、企业知识与教育内容——每个产品都有边界、有验证，在真实约束下持续运行。</p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project project-large reveal">
+            <div class="project-head"><span class="project-type">LegalTech · Local LLM</span><span class="status">批量运行</span></div>
+            <h3>底稿脱敏工具</h3>
+            <p class="project-desc">为尽职调查场景设计的本地批量处理工具。先小样本验证，再确认规则并全量运行；敏感数据不出本机，过程可恢复，结果可审计——为律所现场部署的工作方式。</p>
+            <div class="project-tags"><span class="tag">SGLang</span><span class="tag">262k 上下文</span><span class="tag">异常审计</span></div>
+            <div class="project-preview">
+              <div class="preview-top"><span class="window-dots"><i></i><i></i><i></i></span><span>INTERACTIVE DEMO</span></div>
+              <div class="document" id="redact-document">转让方<span class="sensitive">张伟民</span>将其持有的联创科技 12.5% 股权转让给<span class="sensitive">刘芳</span>，联系电话 <span class="sensitive">139-1234-5678</span>。</div>
+              <div class="demo-row"><span class="demo-status" id="demo-status">已识别 3 处演示敏感信息</span><button class="demo-button" id="redact-button" type="button" aria-pressed="false">执行脱敏</button></div>
+            </div>
+            <div class="project-metrics"><div><b>954</b><span>份当前批次</span></div><div><b>本地</b><span>模型推理</span></div><div><b>可恢复</b><span>批量任务</span></div></div>
+          </article>
+
+          <article class="project project-small reveal">
+            <div class="project-head"><span class="project-type">LegalTech · Agent</span><span class="status prototype">高保真原型</span></div>
+            <h3>诉讼案件分析报告生成器</h3>
+            <p class="project-desc">固定四章结构，法官与律师双视角输出。争议焦点由专业人士标注，每条证据对应原始案卷页码。</p>
+            <div class="project-preview">
+              <div class="preview-top"><span>REPORT STRUCTURE</span><span>4 / 4 READY</span></div>
+              <div class="report-row"><span class="report-num">01</span><span>当事人身份</span><small>已校验</small></div>
+              <div class="report-row"><span class="report-num">02</span><span>案卷对比</span><small>已校验</small></div>
+              <div class="report-row"><span class="report-num">03</span><span>诉讼时间线</span><small>31 节点</small></div>
+              <div class="report-row"><span class="report-num">04</span><span>证据链对齐</span><small>86 条可溯</small></div>
+            </div>
+            <div class="project-metrics"><div><b>2 种</b><span>专业视角</span></div><div><b>100%</b><span>证据页码可溯</span></div></div>
+          </article>
+
+          <article class="project project-small reveal">
+            <div class="project-head"><span class="project-type">Education · Multimodal</span><span class="status prototype">持续构建</span></div>
+            <h3>西游记 · 八十一难地图</h3>
+            <p class="project-desc">为孩子设计的互动内容产品：完整八十一难地图、角色卡片与 AI 立绘生产管线，让经典文学可以探索。</p>
+            <div class="project-preview">
+              <div class="preview-top"><span>CONTENT PIPELINE</span><span>65 / 71</span></div>
+              <div class="route"><span class="route-node done">地图</span><span class="route-node done">角色</span><span class="route-node done">立绘</span><span class="route-node">发布</span></div>
+              <div class="route-progress"><span>角色立绘完成度</span><b>91.5%</b></div>
+            </div>
+            <div class="project-metrics"><div><b>81 难</b><span>完整互动地图</span></div><div><b>71 个</b><span>角色卡片</span></div></div>
+          </article>
+
+          <article class="project project-large reveal">
+            <div class="project-head"><span class="project-type">Data · Architecture</span><span class="status prototype">方案设计</span></div>
+            <h3>PharmaGend · 医药数据中台</h3>
+            <p class="project-desc">面向医药行业的数据中台完整方案包，覆盖需求、白皮书、集成架构与行业调研——把十年驻场方法论迁移到新的数据智能场景。</p>
+            <div class="project-tags"><span class="tag">数据治理</span><span class="tag">集成架构</span><span class="tag">AI 应用</span></div>
+            <div class="project-preview">
+              <div class="preview-top"><span>PLATFORM BLUEPRINT</span><span>4 DELIVERABLES</span></div>
+              <div class="architecture"><div><b>数据源</b>业务系统 / 文档</div><div><b>数据中台</b>治理 / 集成 / 权限</div><div><b>智能应用</b>分析 / Agent</div></div>
+            </div>
+            <div class="project-metrics"><div><b>4 份</b><span>完整方案文档</span></div><div><b>端到端</b><span>架构设计</span></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="eyebrow">Field Record</div><h2>十年，都在现场</h2></div>
+          <p>医院的病房、车企的机房、金融的合规室——每一行结果都是在客户的现场做出来的。</p>
+        </div>
+        <div class="experience-list reveal">
+          <article class="experience"><div class="company">吉林大学第一附属医院<small>智慧病房 iPaaS · 驻场开发</small></div><div><h3>医疗集成平台与统一消息模型</h3><p>抽象 HL7 与院内系统协议，构建幂等、去重、死信与补偿回放链路。</p></div><div class="outcome">接口开发量 −60%<br>日均 15 万+ 消息零丢失</div></article>
+          <article class="experience"><div class="company">广汽本田<small>企业级 iPaaS · 核心开发</small></div><div><h3>ESB 云原生升级</h3><p>Kubernetes 改造、网关熔断限流、灰度发布与全链路可观测。</p></div><div class="outcome">宕机率 −90%<br>集成效率 +40%</div></article>
+          <article class="experience"><div class="company">BMW<small>大数据选址平台 · 项目经理</small></div><div><h3>多源数据驱动门店选址</h3><p>协调二十余人团队，以 H3 地理栅格与评分模型支持业务决策。</p></div><div class="outcome">纳入中国市场<br>战略参考框架</div></article>
+          <article class="experience"><div class="company">中债资信<small>知识库云平台 · 项目经理</small></div><div><h3>金融级企业知识库</h3><p>文档全生命周期、统一身份、细粒度权限与合规审计。</p></div><div class="outcome">500+ QPS 稳定运行<br>检索效率 +60%</div></article>
+        </div>
+        <details class="more-experience reveal">
+          <summary>展开另外两段现场经历 ＋</summary>
+          <article class="experience"><div class="company">防城港市第一人民医院<small>智能体检系统 · 开发工程师</small></div><div><h3>医疗体检与 HIS 集成</h3><p>编写接口标准，使用 EMPI 统一多系统患者主索引。</p></div><div class="outcome">对接周期从月级缩短至周级</div></article>
+          <article class="experience"><div class="company">香港工商注册处<small>审批系统优化 · 开发工程师</small></div><div><h3>工商注册审批性能治理</h3><p>优化前端性能、FileNet 文档读写与批量提交。</p></div><div class="outcome">页面加载 30 秒降至 6 秒<br>上传耗时 −80%</div></article>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="eyebrow">Capabilities</div><h2>FDE 的三件武器</h2></div>
+          <p>一半是工程师，一半是顾问——既理解企业系统的约束，也能用新一代 AI 工具快速构建。</p>
+        </div>
+        <div class="capability-grid">
+          <article class="capability reveal"><span class="capability-index">AI</span><h3>AI 部署工程</h3><p>把模型能力转化为可靠、可验证的业务流程。</p><ul><li>Agent 工作流与 Prompt 工程</li><li>SGLang / RAGFlow / 262k 长上下文</li><li>批量任务、异常恢复与审计</li></ul></article>
+          <article class="capability reveal"><span class="capability-index">EA</span><h3>企业集成架构</h3><p>处理遗留系统、复杂协议与企业级稳定性。</p><ul><li>iPaaS / ESB / API 网关</li><li>Kubernetes / CI/CD / 可观测</li><li>权限、合规与文档生命周期</li></ul></article>
+          <article class="capability reveal"><span class="capability-index">PD</span><h3>现场交付</h3><p>从需求诊断到落地运行，对结果负责。</p><ul><li>需求分析与业务现场沟通</li><li>POC 验证与灰度上线</li><li>跨职能团队与项目管理</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="about reveal">
+          <h2>为什么是 FDE</h2>
+          <div>
+            <p>Forward Deployed Engineer——产品团队里离客户最近的角色。我的十年就是 FDE 的十年：<strong>在病房里写接口标准，在机房里做零停机发布，在监管眼皮下过合规审计。</strong></p>
+            <p>现在大模型是新的交付物，方法论没有变：<strong>到现场去，理解真实约束，让系统在业务里持续运行。</strong>赛博弗兰克这个名字，说的是同一件事——用旧世界的零件，拼出新世界的物种。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="contact" id="contact">
+    <div class="container">
+      <div class="contact-card reveal">
+        <div class="eyebrow">Deploy Me To Your Problem</div>
+        <h2>需要一个懂现场的<br>AI 工程师？</h2>
+        <p>从 POC 验证到生产部署，从需求诊断到持续运行——我可以全程在场。合作方向：AI 工作流设计与落地、企业知识库智能化、遗留系统集成改造、数据中台架构。</p>
+        <div class="contact-list"><span>邮箱 · 待补充</span><span>GitHub · 仓库整理中</span><span>公众号 · 赛博弗兰克</span></div>
+      </div>
+      <div class="footer"><span>© 2026 Fan Kun / CyberFrank · Forward Deployed Engineer</span><span>AI Deployment · Enterprise Integration · Data Intelligence</span></div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var revealItems = document.querySelectorAll('.reveal');
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealItems.forEach(function (item) { item.classList.add('visible'); });
+      } else {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08 });
+        revealItems.forEach(function (item) { observer.observe(item); });
+      }
+
+      var button = document.getElementById('redact-button');
+      var status = document.getElementById('demo-status');
+      var sensitiveItems = document.querySelectorAll('#redact-document .sensitive');
+      var redacted = false;
+      button.addEventListener('click', function () {
+        redacted = !redacted;
+        sensitiveItems.forEach(function (item) { item.classList.toggle('is-hidden', redacted); });
+        button.textContent = redacted ? '还原演示' : '执行脱敏';
+        button.setAttribute('aria-pressed', String(redacted));
+        status.textContent = redacted ? '脱敏完成 · 原始信息已遮蔽' : '已识别 3 处演示敏感信息';
+      });
+    })();
+  </script>
+</body>
+</html>
