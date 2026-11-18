@@ -1,0 +1,86 @@
+{
+  "updated": "2026-11-18",
+  "note": "本文件是官网「技能与在研项目」区块的数据源。修改后运行 python3 scripts/render-site.py。不要在此写入价格、购买按钮或收款信息——cyberfrank.is-a.dev 受 is-a.dev 服务条款约束，禁止商业/营利用途。安装链接若日后有公开 URL，填到 install.url。",
+  "skills": [
+    {
+      "id": "patent-ip-search",
+      "name": "专利与知识产权检索",
+      "platform": "WorkBuddy",
+      "status": "已上架",
+      "summary": "面向专利与知识产权场景的检索技能：帮助整理检索思路、核对比对材料，并输出可继续人工复核的结果。",
+      "tags": [
+        "专利",
+        "知识产权",
+        "法律检索"
+      ],
+      "install": {
+        "type": "in-app-search",
+        "query": "专利与知识产权检索",
+        "url": null,
+        "howto": "打开 WorkBuddy → 专家·技能·连接器 → 技能，搜索「专利与知识产权检索」后安装。"
+      }
+    },
+    {
+      "id": "trademark-legal-search",
+      "name": "商标法律检索与实务",
+      "platform": "WorkBuddy",
+      "status": "已上架",
+      "summary": "围绕商标查询与实务要点，辅助检索近似商标、整理比对意见，供代理人或企业法务再确认。",
+      "tags": [
+        "商标",
+        "法律检索",
+        "实务"
+      ],
+      "install": {
+        "type": "in-app-search",
+        "query": "商标法律检索与实务",
+        "url": null,
+        "howto": "打开 WorkBuddy → 专家·技能·连接器 → 技能，搜索「商标法律检索与实务」后安装。"
+      }
+    },
+    {
+      "id": "env-law-search",
+      "name": "生态环境法律检索（含核安全）",
+      "platform": "WorkBuddy",
+      "status": "已上架",
+      "summary": "检索生态环境与核安全相关法规、标准与执法口径，辅助整理条款依据，不替代专业法律意见。",
+      "tags": [
+        "环境法",
+        "核安全",
+        "法律检索"
+      ],
+      "install": {
+        "type": "in-app-search",
+        "query": "生态环境法律检索（含核安全）",
+        "url": null,
+        "howto": "打开 WorkBuddy → 专家·技能·连接器 → 技能，搜索「生态环境法律检索（含核安全）」后安装。"
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "yifang-hetong-tijian",
+      "name": "乙方合同体检",
+      "type": "LegalTech · Skill",
+      "status": "验证中",
+      "status_class": "prototype",
+      "summary": "只站在服务提供方（乙方）一侧，检查合同里常见的付款节点、验收标准、违约责任与知识产权条款，输出一份签单前可复核的风险清单。当前在做需求验证，不在本站售卖。",
+      "tags": [
+        "合同审查",
+        "乙方",
+        "签单前检查"
+      ],
+      "metrics": [
+        {
+          "value": "乙方视角",
+          "label": "只审服务提供方风险"
+        },
+        {
+          "value": "签单前",
+          "label": "付款 / 验收 / 违约 / IP"
+        }
+      ],
+      "url": null
+    }
+  ]
+}
