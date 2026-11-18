@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="范坤（赛博弗兰克）· Forward Deployed Engineer 前向部署工程师：深入业务现场，部署真正可用的 AI。十年企业级交付经验。">
+  <meta name="description" content="范坤（赛博弗兰克）· Forward Deployed Engineer 前向部署工程师：深入业务现场，部署真正可用的 AI。十年企业级交付经验。已发布专利、商标与生态环境法律检索技能，并在验证乙方合同体检。">
   <meta name="theme-color" content="#fafafd">
+  <meta property="og:title" content="范坤 · 赛博弗兰克 — Forward Deployed Engineer">
+  <meta property="og:description" content="深入业务现场，让 AI 真正跑起来。法律检索技能与乙方合同体检等现场交付项目。">
+  <meta property="og:url" content="https://cyberfrank.is-a.dev/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://cyberfrank.is-a.dev/">
   <title>范坤 · 赛博弗兰克 — Forward Deployed Engineer</title>
   <style>
     :root {
@@ -157,6 +163,7 @@
     .project:hover::before { opacity: 1; }
     .project-large { grid-column: span 7; }
     .project-small { grid-column: span 5; }
+    .project-third { grid-column: span 4; }
     .project-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .project-type { color: var(--faint); font-size: 11px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
     .status { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
@@ -269,7 +276,7 @@
       .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
       .section { padding-top: 80px; }
       .section-heading { margin-bottom: 28px; }
-      .project-large, .project-small { grid-column: 1 / -1; }
+      .project-large, .project-small, .project-third { grid-column: 1 / -1; }
       .project { padding: 24px; }
       .experience, .more-experience .experience { grid-template-columns: 1fr; gap: 8px; padding: 24px 0; }
       .outcome { grid-column: auto; margin-top: 5px; }
@@ -279,6 +286,20 @@
       .contact-card { padding: 38px 26px; border-radius: 24px; }
       .footer { flex-direction: column; gap: 5px; }
     }
+
+    .skill-howto { margin-top: 18px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .skill-action {
+      display: inline-flex; align-items: center; margin-top: 18px;
+      color: var(--violet); font-size: 13px; font-weight: 700; text-decoration: none;
+    }
+    .skill-action:hover { text-decoration: underline; }
+    .contact-list a {
+      padding: 10px 15px; border: 1px solid rgba(255,255,255,.2); border-radius: 11px;
+      background: rgba(255,255,255,.08); color: rgba(255,255,255,.82); font-size: 12px;
+      text-decoration: none;
+    }
+    .contact-list a:hover { background: rgba(255,255,255,.16); color: #fff; }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -296,6 +317,7 @@
       </a>
       <div class="nav-links">
         <a href="#work">产品</a>
+        <a href="#skills">技能</a>
         <a href="#experience">经历</a>
         <a href="#capabilities">能力</a>
         <a href="#about">关于</a>
@@ -413,6 +435,51 @@
             </div>
             <div class="project-metrics"><div><b>4 份</b><span>完整方案文档</span></div><div><b>端到端</b><span>架构设计</span></div></div>
           </article>
+
+          <!-- BEGIN:GENERATED:contract-project -->
+          <article class="project project-small reveal">
+            <div class="project-head"><span class="project-type">LegalTech · Skill</span><span class="status prototype">验证中</span></div>
+            <h3>乙方合同体检</h3>
+            <p class="project-desc">只站在服务提供方（乙方）一侧，检查合同里常见的付款节点、验收标准、违约责任与知识产权条款，输出一份签单前可复核的风险清单。当前在做需求验证，不在本站售卖。</p>
+            <div class="project-tags"><span class="tag">合同审查</span><span class="tag">乙方</span><span class="tag">签单前检查</span></div>
+            <div class="project-metrics"><div><b>乙方视角</b><span>只审服务提供方风险</span></div><div><b>签单前</b><span>付款 / 验收 / 违约 / IP</span></div></div>
+            
+          </article>
+          <!-- END:GENERATED:contract-project -->
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="eyebrow">Published Skills</div><h2>已发布的法律检索技能</h2></div>
+          <p>在腾讯 WorkBuddy 技能市场可搜索安装。本页只做作品展示，不在本站售卖或收款。</p>
+        </div>
+        <div class="project-grid">
+          <!-- BEGIN:GENERATED:skills -->
+          <article class="project project-third reveal">
+            <div class="project-head"><span class="project-type">WorkBuddy</span><span class="status">已上架</span></div>
+            <h3>专利与知识产权检索</h3>
+            <p class="project-desc">面向专利与知识产权场景的检索技能：帮助整理检索思路、核对比对材料，并输出可继续人工复核的结果。</p>
+            <div class="project-tags"><span class="tag">专利</span><span class="tag">知识产权</span><span class="tag">法律检索</span></div>
+            <p class="skill-howto">打开 WorkBuddy → 专家·技能·连接器 → 技能，搜索「专利与知识产权检索」后安装。</p>
+          </article>
+          <article class="project project-third reveal">
+            <div class="project-head"><span class="project-type">WorkBuddy</span><span class="status">已上架</span></div>
+            <h3>商标法律检索与实务</h3>
+            <p class="project-desc">围绕商标查询与实务要点，辅助检索近似商标、整理比对意见，供代理人或企业法务再确认。</p>
+            <div class="project-tags"><span class="tag">商标</span><span class="tag">法律检索</span><span class="tag">实务</span></div>
+            <p class="skill-howto">打开 WorkBuddy → 专家·技能·连接器 → 技能，搜索「商标法律检索与实务」后安装。</p>
+          </article>
+          <article class="project project-third reveal">
+            <div class="project-head"><span class="project-type">WorkBuddy</span><span class="status">已上架</span></div>
+            <h3>生态环境法律检索（含核安全）</h3>
+            <p class="project-desc">检索生态环境与核安全相关法规、标准与执法口径，辅助整理条款依据，不替代专业法律意见。</p>
+            <div class="project-tags"><span class="tag">环境法</span><span class="tag">核安全</span><span class="tag">法律检索</span></div>
+            <p class="skill-howto">打开 WorkBuddy → 专家·技能·连接器 → 技能，搜索「生态环境法律检索（含核安全）」后安装。</p>
+          </article>
+          <!-- END:GENERATED:skills -->
         </div>
       </div>
     </section>
@@ -470,7 +537,7 @@
         <div class="eyebrow">Deploy Me To Your Problem</div>
         <h2>需要一个懂现场的<br>AI 工程师？</h2>
         <p>从 POC 验证到生产部署，从需求诊断到持续运行——我可以全程在场。合作方向：AI 工作流设计与落地、企业知识库智能化、遗留系统集成改造、数据中台架构。</p>
-        <div class="contact-list"><span>邮箱 · 待补充</span><span>GitHub · 仓库整理中</span><span>公众号 · 赛博弗兰克</span></div>
+        <div class="contact-list"><span>邮箱 · 待补充</span><a href="https://github.com/MoYunFrank" rel="noopener noreferrer">GitHub · MoYunFrank</a><span>公众号 · 赛博弗兰克</span></div>
       </div>
       <div class="footer"><span>© 2026 Fan Kun / CyberFrank · Forward Deployed Engineer</span><span>AI Deployment · Enterprise Integration · Data Intelligence</span></div>
     </div>
