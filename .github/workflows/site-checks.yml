@@ -1,0 +1,40 @@
+name: site-checks
+# PR / push: render check + local smoke. After Vercel finishes a production deploy: live smoke test.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  deployment_status:
+  schedule:
+    - cron: "0 1 * * *"   # 09:00 Beijing daily live check
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Generated sections are up to date
+        run: |
+          python3 scripts/render-site.py
+          git diff --exit-code index.html || (echo "index.html out of sync with data/projects.json" && exit 1)
+      - name: JSON valid
+        run: python3 -m json.tool data/projects.json > /dev/null
+      - name: Forbidden wording
+        run: |
+          ! grep -nE '律师函|立即购买|收款码' index.html data/projects.json
+  live:
+    if: >-
+      github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke test live site
+        run: |
+          TARGET="${{ github.event.deployment_status.environment_url }}"
+          scripts/smoke-test.sh ${TARGET:-https://cyberfrank.is-a.dev/} https://cyberfrank-site-khaki.vercel.app/
